@@ -20,6 +20,15 @@ class Field {
       console.log(row.join(""));
     }
   }
+
+  playGame() {
+    let gameOver = false;
+
+    while (!gameOver) {
+      this.print();
+      let userInput = prompt("Which Way?");
+    }
+  }
 }
 
 const myField = new Field([
@@ -28,4 +37,4 @@ const myField = new Field([
   ["░", "^", "░"],
 ]);
 
-myField.print();
+myField.playGame();
