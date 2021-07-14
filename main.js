@@ -28,6 +28,7 @@ class Field {
     while (!this.gameOver) {
       this.print();
       this.getUserInput();
+      console.log("game over? ", this.gameOver);
     }
   }
 
@@ -36,16 +37,24 @@ class Field {
 
     switch (userInput) {
       case "w":
-        this.field[--this.yPos][this.xPos] = pathCharacter;
+        this.yPos - 1 >= 0
+          ? (this.field[--this.yPos][this.xPos] = pathCharacter)
+          : (this.gameOver = true);
         break;
       case "a":
-        this.field[this.yPos][--this.xPos] = pathCharacter;
+        this.xPos - 1 >= 0
+          ? (this.field[this.yPos][--this.xPos] = pathCharacter)
+          : (this.gameOver = true);
         break;
       case "s":
-        this.field[++this.yPos][this.xPos] = pathCharacter;
+        this.yPos + 1 <= this.field.length - 1
+          ? (this.field[++this.yPos][this.xPos] = pathCharacter)
+          : (this.gameOver = true);
         break;
       case "d":
-        this.field[this.yPos][++this.xPos] = pathCharacter;
+        this.xPos + 1 <= this.field[0].length - 1
+          ? (this.field[this.yPos][++this.xPos] = pathCharacter)
+          : (this.gameOver = true);
         break;
     }
   }
@@ -58,4 +67,4 @@ const myField = new Field([
 ]);
 
 myField.playGame();
-// console.log("pos", myField.playerPos);
+// console.log("field row length", myField.field[0].length);
