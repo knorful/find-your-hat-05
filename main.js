@@ -7,13 +7,16 @@ const pathCharacter = "*";
 
 class Field {
   constructor(field) {
-    this._field = field;
+    this.field = field;
+    this.xPos = 0;
+    this.yPos = 0;
+    this.gameOver = false;
   }
 
   print() {
-    for (let i = 0; i < this._field.length; i++) {
+    for (let i = 0; i < this.field.length; i++) {
       let row = [];
-      let pos = this._field[i];
+      let pos = this.field[i];
       for (let j = 0; j < pos.length; j++) {
         row.push(pos[j]);
       }
@@ -22,11 +25,28 @@ class Field {
   }
 
   playGame() {
-    let gameOver = false;
-
-    while (!gameOver) {
+    while (!this.gameOver) {
       this.print();
-      let userInput = prompt("Which Way?");
+      this.getUserInput();
+    }
+  }
+
+  getUserInput() {
+    let userInput = prompt("Which Way?");
+
+    switch (userInput) {
+      case "w":
+        this.field[--this.yPos][this.xPos] = pathCharacter;
+        break;
+      case "a":
+        this.field[this.yPos][--this.xPos] = pathCharacter;
+        break;
+      case "s":
+        this.field[++this.yPos][this.xPos] = pathCharacter;
+        break;
+      case "d":
+        this.field[this.yPos][++this.xPos] = pathCharacter;
+        break;
     }
   }
 }
@@ -38,3 +58,4 @@ const myField = new Field([
 ]);
 
 myField.playGame();
+// console.log("pos", myField.playerPos);
