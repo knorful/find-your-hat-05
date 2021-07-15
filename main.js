@@ -109,6 +109,8 @@ class Field {
       this.gameOver = true;
     }
   }
+
+  static generateField(height, width, percentage) {}
 }
 
 const myField = new Field([
