@@ -110,14 +110,30 @@ class Field {
     }
   }
 
-  static generateField(height, width, percentage) {}
+  static generateField(height, width, percentage) {
+    let newField = [];
+    //loop height times
+    for (let i = 0; i < height; i++) {
+      let row = [];
+      //loop width times
+      for (let j = 0; j < width; j++) {
+        //randomly populate field with field, hole, or hat charaters (1 hat)
+        if (Math.random() < percentage) {
+          row.push(hole);
+        } else {
+          row.push(fieldCharacter);
+        }
+      }
+      newField.push(row);
+    }
+    newField[Math.floor(Math.random() * height)][
+      Math.floor(Math.random() * width)
+    ] = hat;
+    newField[0][0] = pathCharacter;
+    this.field = newField;
+    return this.field;
+  }
 }
 
-const myField = new Field([
-  ["*", "░", "O"],
-  ["░", "O", "░"],
-  ["░", "^", "░"],
-]);
-
+const myField = new Field(Field.generateField(3, 3, 0.4));
 myField.playGame();
-// console.log("field row length", myField.field[0].length);
