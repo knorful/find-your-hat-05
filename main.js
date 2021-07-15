@@ -41,21 +41,25 @@ class Field {
     switch (userInput) {
       case "w":
         if (this.checkOutOfBounds("y", this.yPos - 1) === false) {
+          this.checkForHat(this.yPos - 1, this.xPos);
           this.checkForHole(this.yPos - 1, this.xPos);
         }
         break;
       case "a":
         if (this.checkOutOfBounds("x", this.xPos - 1) === false) {
+          this.checkForHat(this.yPos, this.xPos - 1);
           this.checkForHole(this.yPos, this.xPos - 1);
         }
         break;
       case "s":
         if (this.checkOutOfBounds("y", this.yPos + 1) === false) {
+          this.checkForHat(this.yPos + 1, this.xPos);
           this.checkForHole(this.yPos + 1, this.xPos);
         }
         break;
       case "d":
         if (this.checkOutOfBounds("x", this.xPos + 1) === false) {
+          this.checkForHat(this.yPos, this.xPos + 1);
           this.checkForHole(this.yPos, this.xPos + 1);
         }
         break;
@@ -87,6 +91,12 @@ class Field {
     return false;
   }
 
+  checkForHat(y, x) {
+    if (this.field[y][x] === hat) {
+      this.foundHat = true;
+    }
+  }
+
   loseOrWin() {
     if (this.fellInHole) {
       console.log("YOU FELL IN A HOLEEEEEEEEE! Game Over!");
@@ -94,8 +104,8 @@ class Field {
     } else if (this.outOfBounds) {
       console.log("You got lost in the forest! Game Over!");
       this.gameOver = true;
-    } else {
-      console.log("Hey! You found your hat!");
+    } else if (this.foundHat) {
+      console.log("Congrats! You found your hat!");
       this.gameOver = true;
     }
   }
