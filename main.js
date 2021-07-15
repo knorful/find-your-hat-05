@@ -40,25 +40,25 @@ class Field {
 
     switch (userInput) {
       case "w":
-        if (this.checkOutOfBounds("y", this.yPos - 1) === false) {
+        if (!this.checkOutOfBounds("y", this.yPos - 1)) {
           this.checkForHat(this.yPos - 1, this.xPos);
           this.checkForHole(this.yPos - 1, this.xPos);
         }
         break;
       case "a":
-        if (this.checkOutOfBounds("x", this.xPos - 1) === false) {
+        if (!this.checkOutOfBounds("x", this.xPos - 1)) {
           this.checkForHat(this.yPos, this.xPos - 1);
           this.checkForHole(this.yPos, this.xPos - 1);
         }
         break;
       case "s":
-        if (this.checkOutOfBounds("y", this.yPos + 1) === false) {
+        if (!this.checkOutOfBounds("y", this.yPos + 1)) {
           this.checkForHat(this.yPos + 1, this.xPos);
           this.checkForHole(this.yPos + 1, this.xPos);
         }
         break;
       case "d":
-        if (this.checkOutOfBounds("x", this.xPos + 1) === false) {
+        if (!this.checkOutOfBounds("x", this.xPos + 1)) {
           this.checkForHat(this.yPos, this.xPos + 1);
           this.checkForHole(this.yPos, this.xPos + 1);
         }
