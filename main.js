@@ -11,6 +11,9 @@ class Field {
     this.xPos = 0;
     this.yPos = 0;
     this.gameOver = false;
+    this.fellInHole = false;
+    this.outOfBounds = false;
+    this.foundHat = false;
   }
 
   print() {
@@ -28,34 +31,72 @@ class Field {
     while (!this.gameOver) {
       this.print();
       this.getUserInput();
-      console.log("game over? ", this.gameOver);
+      this.loseOrWin();
     }
   }
 
   getUserInput() {
-    let userInput = prompt("Which Way?");
+    let userInput = prompt("Which Way? (w|a|s|d): ");
 
     switch (userInput) {
       case "w":
-        this.yPos - 1 >= 0
-          ? (this.field[--this.yPos][this.xPos] = pathCharacter)
-          : (this.gameOver = true);
+        if (this.checkOutOfBounds("y", this.yPos - 1) === false) {
+          this.checkForHole(this.yPos - 1, this.xPos);
+        }
         break;
       case "a":
-        this.xPos - 1 >= 0
-          ? (this.field[this.yPos][--this.xPos] = pathCharacter)
-          : (this.gameOver = true);
+        if (this.checkOutOfBounds("x", this.xPos - 1) === false) {
+          this.checkForHole(this.yPos, this.xPos - 1);
+        }
         break;
       case "s":
-        this.yPos + 1 <= this.field.length - 1
-          ? (this.field[++this.yPos][this.xPos] = pathCharacter)
-          : (this.gameOver = true);
+        if (this.checkOutOfBounds("y", this.yPos + 1) === false) {
+          this.checkForHole(this.yPos + 1, this.xPos);
+        }
         break;
       case "d":
-        this.xPos + 1 <= this.field[0].length - 1
-          ? (this.field[this.yPos][++this.xPos] = pathCharacter)
-          : (this.gameOver = true);
+        if (this.checkOutOfBounds("x", this.xPos + 1) === false) {
+          this.checkForHole(this.yPos, this.xPos + 1);
+        }
         break;
+      default:
+        console.log("Invalid input. Please try again!");
+        break;
+    }
+  }
+
+  checkForHole(y, x) {
+    if (y < 0 || y >= this.field.length) return;
+    if (this.field[y][x] !== hole) {
+      this.yPos = y;
+      this.xPos = x;
+      this.field[this.yPos][this.xPos] = pathCharacter;
+    } else {
+      this.fellInHole = true;
+    }
+  }
+
+  checkOutOfBounds(action, pos) {
+    if (action === "y" && (pos < 0 || pos > this.field.length - 1)) {
+      this.outOfBounds = true;
+      return true;
+    } else if (action === "x" && (pos < 0 || pos > this.field[0].length)) {
+      this.outOfBounds = true;
+      return true;
+    }
+    return false;
+  }
+
+  loseOrWin() {
+    if (this.fellInHole) {
+      console.log("YOU FELL IN A HOLEEEEEEEEE! Game Over!");
+      this.gameOver = true;
+    } else if (this.outOfBounds) {
+      console.log("You got lost in the forest! Game Over!");
+      this.gameOver = true;
+    } else {
+      console.log("Hey! You found your hat!");
+      this.gameOver = true;
     }
   }
 }
